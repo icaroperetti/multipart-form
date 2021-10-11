@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import * as C from "./styles";
+import { Header } from "../Header";
 
 type Props = {
   children: ReactNode;
@@ -10,9 +11,8 @@ export const Theme = ({ children }: Props) => {
     <C.Container>
       <C.Area>
         <Header />
-
         <C.Steps>
-          <C.Siderbar></C.Siderbar>
+          <C.Sidebar>...</C.Sidebar>
           <C.Page>{children}</C.Page>
         </C.Steps>
       </C.Area>
