@@ -1,4 +1,4 @@
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import * as C from "./styles";
 import { useForm, FormActions } from "../../contexts/FormContext";
 import { Theme } from "../../components/Theme";
@@ -10,22 +10,19 @@ export const FormStep2 = () => {
   const { state, dispatch } = useForm();
 
   useEffect(() => {
-    dispatch({
-      type: FormActions.setCurrentStep,
-      payload: 2,
-    });
+    if (state.name === "") {
+      history.push("/");
+    } else {
+      dispatch({
+        type: FormActions.setCurrentStep,
+        payload: 2,
+      });
+    }
   }, []);
-
-  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch({
-      type: FormActions.setName,
-      payload: e.target.value,
-    });
-  };
 
   const handleNextStep = () => {
     if (state.name !== "") {
-      history.push("/step2");
+      history.push("/step3");
     } else {
       alert("Please enter your name");
     }
@@ -42,8 +39,8 @@ export const FormStep2 = () => {
     <Theme>
       <C.Container>
         <p>Step 2/3</p>
-        <h1>Let's start with your name</h1>
-        <p>Fill the field below with your name.</p>
+        <h1>{state.name}, what best describes you?</h1>
+        <p>Choose one option</p>
 
         <hr />
 
@@ -63,6 +60,7 @@ export const FormStep2 = () => {
           onClick={() => setLevel(1)}
         />
 
+        <Link to="/" className="backButton">Voltar</Link>
         <button onClick={handleNextStep}>Next</button>
       </C.Container>
     </Theme>
