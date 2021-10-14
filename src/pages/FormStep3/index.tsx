@@ -14,7 +14,7 @@ export const FormStep3 = () => {
     } else {
       dispatch({
         type: FormActions.setCurrentStep,
-        payload: 2,
+        payload: 3,
       });
     }
   }, []);
