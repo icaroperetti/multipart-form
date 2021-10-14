@@ -1,4 +1,4 @@
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import * as C from "./styles";
 import { useForm, FormActions } from "../../contexts/FormContext";
 import { Theme } from "../../components/Theme";
@@ -9,24 +9,35 @@ export const FormStep3 = () => {
   const { state, dispatch } = useForm();
 
   useEffect(() => {
-    dispatch({
-      type: FormActions.setCurrentStep,
-      payload: 3,
-    });
+    if (state.name === "") {
+      history.push("/");
+    } else {
+      dispatch({
+        type: FormActions.setCurrentStep,
+        payload: 2,
+      });
+    }
   }, []);
 
-  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch({
-      type: FormActions.setName,
+      type: FormActions.setEmail,
+      payload: e.target.value,
+    });
+  };
+
+  const handleGitChange = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch({
+      type: FormActions.setGithub,
       payload: e.target.value,
     });
   };
 
   const handleNextStep = () => {
-    if (state.name !== "") {
-      history.push("/step2");
+    if (state.email !== "" && state.github !== "") {
+      console.log(state);
     } else {
-      alert("Please enter your name");
+      alert("Please fill all the inputs");
     }
   };
 
@@ -34,22 +45,29 @@ export const FormStep3 = () => {
     <Theme>
       <C.Container>
         <p>Step 3/3</p>
-        <h1>Let's start with your name</h1>
-        <p>Fill the field below with your name.</p>
+        <h1>Cool {state.name} where we can find you?</h1>
+        <p>Please, fill the fields below with your contact.</p>
 
         <hr />
 
         <label>
-          Your name:
+          What is your email?:
           <input
-            type="text"
-            autoFocus
-            value={state.name}
-            onChange={handleNameChange}
+            type="email"
+            value={state.email}
+            onChange={handleEmailChange}
           />
         </label>
 
-        <button onClick={handleNextStep}>Next</button>
+        <label>
+          What is your github?:
+          <input type="url" value={state.github} onChange={handleGitChange} />
+        </label>
+
+        <Link to="/step2" className="backButton">
+          Voltar
+        </Link>
+        <button onClick={handleNextStep}>Enviar</button>
       </C.Container>
     </Theme>
   );

@@ -60,7 +60,9 @@ export const FormStep2 = () => {
           onClick={() => setLevel(1)}
         />
 
-        <Link to="/" className="backButton">Voltar</Link>
+        <Link to="/" className="backButton">
+          Voltar
+        </Link>
         <button onClick={handleNextStep}>Next</button>
       </C.Container>
     </Theme>
